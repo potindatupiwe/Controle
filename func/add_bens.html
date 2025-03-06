@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Adicionar Novo Item</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Novo Item</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-plus-circle me-1"></i>
+            Formulário de Cadastro
+        </div>
+        <div class="card-body">
+            <form method="POST" class="row g-3">
+                {% csrf_token %}
+                
+                <div class="col-md-6">
+                    <label class="form-label">RFID</label>
+                    {{ form.RFID }}
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label">Nome do Item</label>
+                    {{ form.nome }}
+                </div>
+                
+                <div class="col-12">
+                    <label class="form-label">Descrição</label>
+                    {{ form.descricao }}
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Data de Aquisição</label>
+                    {{ form.data_aquisicao }}
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Valor</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        {{ form.valor }}
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    {{ form.status }}
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Categoria</label>
+                    {{ form.categoria }}
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Departamento</label>
+                    {{ form.departamento }}
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Fornecedor</label>
+                    {{ form.fornecedor }}
+                </div>
+                
+                <div class="col-12 mt-4">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-1"></i>
+                            Cadastrar Item
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Inicializa o flatpickr
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr(".datepicker", {
+            dateFormat: "d/m/Y",
+            locale: "pt",
+            allowInput: true
+        });
+    });
+</script>
+
+
+{% endblock %}

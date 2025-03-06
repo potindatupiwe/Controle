@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Atualizar Relatorio</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Novo Relatório</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <i class="fas fa-exclamation-circle me-1"></i>
+            Registro de Perda Patrimonial
+        </div>
+        <div class="card-body">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger mb-4">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="row g-3">
+                    <!-- Título -->
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" name="titulo" class="form-control" 
+                                   value="{{ form.titulo.value|default:'' }}" required>
+                            {% for error in form.titulo.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Conteúdo -->
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Descrição da Perda</label>
+                            <textarea name="conteudo" class="form-control" rows="5" required>
+                                {{ form.conteudo.value|default:'' }}
+                            </textarea>
+                            {% for error in form.conteudo.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Responsável -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Responsável</label>
+                            <select name="criado_por" class="form-select" required>
+                                {% for value, text in form.criado_por.field.choices %}
+                                    <option value="{{ value }}" 
+                                        {% if form.criado_por.value == value %}selected{% endif %}>
+                                        {{ text }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% for error in form.criado_por.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Botão -->
+                    <div class="col-12 mt-4">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-file-signature me-1"></i>
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

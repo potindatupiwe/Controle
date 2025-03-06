@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main  %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Fornecedores</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Fornecedores</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <i class="fas fa-truck me-1"></i>
+            Lista de Fornecedores
+            <div class="float-end">
+                <a href="{% url 'add_fornecedores' %}" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus"></i> Novo Fornecedor
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Contato</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fornecedor in fornecedores %}
+                        <tr>
+                            <td>{{ fornecedor.nome_empresa }}</td>
+                            <td>{{ fornecedor.dados_contato|truncatechars:30 }}</td>
+                            <td>{{ fornecedor.categoria }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'update_fornecedores' fornecedor.pk %}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'delete_fornecedores' fornecedor.pk %}" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir este fornecedor?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Nova Movimentação</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Registrar Movimentação</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-truck-moving me-1"></i>
+            Formulário de Movimentação
+        </div>
+        <div class="card-body">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                <!-- Erros gerais -->
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="row g-3">
+                    <!-- Ativo -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Ativo</label>
+                            <select name="ativo" class="form-select">
+                                {% for value, text in form.ativo.field.choices %}
+                                    <option value="{{ value }}" {% if form.ativo.value == value %}selected{% endif %}>
+                                        {{ text }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% for error in form.ativo.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Responsável -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Responsável</label>
+                            <select name="responsavel" class="form-select">
+                                {% for value, text in form.responsavel.field.choices %}
+                                    <option value="{{ value }}" {% if form.responsavel.value == value %}selected{% endif %}>
+                                        {{ text }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% for error in form.responsavel.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Departamento Origem -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Origem</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                <select name="departamento_origem" class="form-select">
+                                    {% for value, text in form.departamento_origem.field.choices %}
+                                        <option value="{{ value }}" {% if form.departamento_origem.value == value %}selected{% endif %}>
+                                            {{ text }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% for error in form.departamento_origem.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                 
+                    <!-- Departamento Destino -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Destino</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                <select name="departamento_destino" class="form-select">
+                                    {% for value, text in form.departamento_destino.field.choices %}
+                                        <option value="{{ value }}" {% if form.departamento_destino.value == value %}selected{% endif %}>
+                                            {{ text }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% for error in form.departamento_destino.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Botão de Submit -->
+                    <div class="col-12 mt-4">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-1"></i>
+                                Registrar Movimentação
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

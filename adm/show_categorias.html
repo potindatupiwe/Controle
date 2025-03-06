@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Categorias</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Categorias</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <i class="fas fa-tags me-1"></i>
+            Lista de Categorias
+            <div class="float-end">
+                <a href="{% url 'add_categorias' %}" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus"></i> Nova Categoria
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.nome }}</td>
+                            <td>{{ categoria.descricao|truncatechars:50 }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'update_categorias' categoria.pk %}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'delete_categorias' categoria.pk %}" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir esta categoria?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

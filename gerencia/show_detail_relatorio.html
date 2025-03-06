@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Detalhes do Relatório</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Relatório #{{ relatorio.id }}</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <i class="fas fa-file-alt me-1"></i>
+            Informações Completas
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Imagem -->
+                <div class="col-md-6 mb-4">
+                    <div class="ratio ratio-16x9">
+                        <img src="/media/{{ relatorio.img }}" 
+                             class="img-fluid rounded" 
+                             alt="Imagem do relatório"
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal">
+                    </div>
+                </div>
+
+                <!-- Detalhes -->
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Título:</dt>
+                        <dd class="col-sm-8">{{ relatorio.titulo }}</dd>
+
+                        <dt class="col-sm-4">Tipo:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">
+                                {{ relatorio.types }}
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4">Criação:</dt>
+                        <dd class="col-sm-8">
+                            <i class="fas fa-calendar me-1"></i>
+                            {{ relatorio.data_criacao|date:"d/m/Y H:i" }}
+                        </dd>
+
+                        <dt class="col-sm-4">Última Atualização:</dt>
+                        <dd class="col-sm-8">
+                            <i class="fas fa-history me-1"></i>
+                            {{ relatorio.data_modificacao|date:"d/m/Y H:i" }}
+                        </dd>
+
+                        <dt class="col-sm-4">Criado por:</dt>
+                        <dd class="col-sm-8">
+                            <i class="fas fa-user me-1"></i>
+                            {{ relatorio.criado_por }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="mt-4">
+                <h5 class="mb-3">Descrição Detalhada:</h5>
+                <div class="border p-3 rounded bg-light">
+                    {{ relatorio.conteudo|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="mt-4 d-flex gap-2 justify-content-end">
+                <a href="{% url 'show_relatorio' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>
+                    Voltar
+                </a>
+                {% if perms.relatorios.change_relatorio %}
+                <a href="{% url 'update_relatorio' relatorio.pk %}" class="btn btn-warning">
+                    <i class="fas fa-edit me-1"></i>
+                    Editar
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para imagem -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Visualização Completa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            {% if object.types == 'DANO' %}
+            <div class="modal-body text-center">
+                <img src="/media/{{ relatorio.img }}" 
+                     class="img-fluid" 
+                     alt="Imagem em tamanho real">
+            </div>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock %}

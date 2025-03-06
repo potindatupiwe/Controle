@@ -1,0 +1,99 @@
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="{% static "css/styles.css" %}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Atualizar Cadastro</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Atualizar Usuário</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-user-plus me-1"></i>
+            Atualizar {{object}}
+        </div>
+        <div class="card-body">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger mb-4">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="row g-3">
+                    <!-- Username -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="id_username">Nome de Usuário</label>
+                            <input type="text" name="username" class="form-control" 
+                                   id="id_username" required
+                                   value="{{ form.username.value|default:'' }}">
+                            {% for error in form.username.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="id_email">E-mail</label>
+                            <input type="email" name="email" class="form-control" 
+                                   id="id_email" required
+                                   value="{{ form.email.value|default:'' }}">
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                
+
+                    <!-- Grupo -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="group">Grupo</label>
+                            <select name="group" class="form-select" id="group" required>
+                                <option value selected>----------</option>
+                                <option value="Funcionários">Funcionários</option>
+                                <option value="Gerencia">Gerência</option>
+                                <option value="Administradores">Administradores</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Envio -->
+                    <div class="col-12 mt-4">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-check me-1"></i>
+                                Cadastrar Usuário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle para mostrar senha
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordField = document.getElementById('id_password');
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+</script>
+
+{% endblock %}

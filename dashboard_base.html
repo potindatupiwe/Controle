@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Dashboard de Patrimônio</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'list_bens' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Visão Geral</li>
+    </ol>
+
+    <!-- Valor Total -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Valor Total</h5>
+                            <h2 class="card-text" id="valorTotal">R$ 0,00</h2>
+                        </div>
+                        <i class="fas fa-dollar-sign fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row">
+        <!-- Categorias -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-tags me-1"></i>
+                    Distribuição por Categoria
+                </div>
+                <div class="card-body">
+                    <canvas id="categoriaChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manutenção -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <i class="fas fa-tools me-1"></i>
+                    Status de Manutenção
+                </div>
+                <div class="card-body">
+                    <canvas id="manutencaoChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movimentações -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-truck-moving me-1"></i>
+                    Histórico de Movimentações
+                </div>
+                <div class="card-body">
+                    <canvas id="movimentacoesChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Departamentos -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-building me-1"></i>
+                    Distribuição por Departamento
+                </div>
+                <div class="card-body">
+                    <canvas id="departamentoChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fornecedores -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <i class="fas fa-truck me-1"></i>
+                    Fornecedores por Volume
+                </div>
+                <div class="card-body">
+                    <canvas id="fornecedoresChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Ativos -->
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <i class="fas fa-star me-1"></i>
+                    Top 5 Ativos Mais Valiosos
+                </div>
+                <div class="card-body">
+                    <canvas id="topAtivosChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart.js -->
+<script src="{% static 'node_modules/chart.js/dist/chart.umd.js' %}"></script>
+
+<!-- Scripts dos Gráficos -->
+<script src="{% static 'ChartCountCat.js' %}"></script>
+<script src="{% static 'manutencaoChart.js' %}"></script>
+<script src="{% static 'movimentacoChart.js' %}"></script>
+<script src="{% static 'dptChart.js' %}"></script>
+<script src="{% static 'fornecedorBensChart.js' %}"></script>
+<script src="{% static 'TotalPrices.js' %}"></script>
+<script src="{% static 'bensValorChart.js' %}"></script>
+{% endblock %}
+
+
+
